@@ -1,0 +1,20 @@
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Koordinat Ekranı</h4>
+          <button type="button" class="btn-close" (click)="closeModal()" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <form >
+                <input type="text" class="form-control" placeholder="İsim">
+                <label for="">{{data.type}}</label>
+                <label class="form-control " >{{data.coordinates}}</label>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="save()">Save</button>
+        </div>
+      </div>
+    </div>
+</div>
