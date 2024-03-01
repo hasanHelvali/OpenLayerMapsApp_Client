@@ -6,14 +6,14 @@
           <button type="button" class="btn-close" (click)="closeModal()" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-            <form >
-                <input type="text" class="form-control" placeholder="İsim">
-                <label for="">{{data.type}}</label>
-                <label class="form-control " >{{data.coordinates}}</label>
+            <form class="form">
+                <input type="text" class="form-control" placeholder="İsim" #name>
+                <label class="form-control-plaintext  " for="">Feature : {{data.type}}</label> <br>
+                <label class="form-control-plaintext " >Coordinates : {{data.coordinates}}</label>
             </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="save()">Save</button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="save(name.value)">Save</button>
         </div>
       </div>
     </div>

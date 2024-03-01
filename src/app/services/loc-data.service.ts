@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
-import { GeoLoc } from '../interfaces/geoloc';
+import { GeoLocation } from '../models/geo-location';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocDataService {
-
-  data:GeoLoc;
+  data:GeoLocation
   constructor() {
-    console.log("+++++");
-    
    }
-
-   
 }
