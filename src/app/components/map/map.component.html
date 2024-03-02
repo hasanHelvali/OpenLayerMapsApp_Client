@@ -1,19 +1,19 @@
 <body>
     <div id="map" class="map"></div>
-    <form>
-      <label for="type">Geometry type &nbsp;</label>
-      <select id="type" [(ngModel)]="_options" [ngModelOptions]="{standalone: true}" #selectBox (change)="onChanges()">
-        <option value="Point">Point</option>
-        <option value="LineString">LineString</option>
-        <option value="Polygon">Polygon</option>
-        <option value="Circle">Circle</option>
-      </select>
+    <form class="form">
+      <!-- <label for="type">Geometry type &nbsp;</label> -->
+      <div class="">
+      <select id="type" class="form-select  " [(ngModel)]="_options" [ngModelOptions]="{standalone: true}" #selectBox (change)="onChanges()">
+          <option value="Point">Point</option>
+          <option value="LineString">LineString</option>
+          <option value="Polygon">Polygon</option>
+          <option value="Circle">Circle</option>
+        </select>
+      </div>
     </form>
-
     <script type="module" src="main.js"></script>
-
-
   </body>
+  <button id="typeButton" class="btn btn-light" (click)="getGeometryModal()">Bütün Kayıtları Getir</button>
 
   
 

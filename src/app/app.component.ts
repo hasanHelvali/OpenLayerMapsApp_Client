@@ -15,7 +15,6 @@ export class AppComponent extends BaseComponent implements OnInit {
     super(spinner)
   }
   ngOnInit(): void {
-    this.data=this.locDataService.data
   }
   title = 'BasarSoftTask1_Client';
 

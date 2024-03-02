@@ -17,6 +17,7 @@ import { LocDataService } from 'src/app/services/loc-data.service';
 import { Point } from 'ol/geom';
 import { GeoLocation } from 'src/app/models/geo-location';
 import WKT, {  } from 'ol/format/WKT';
+import { GeometryListModalComponent } from '../geometry-list-modal/geometry-list-modal.component';
 
 @Component({
   selector: 'app-map',
@@ -27,11 +28,13 @@ import WKT, {  } from 'ol/format/WKT';
 
 
 export class MapComponent implements OnInit  {
-  constructor(private httpCLient:CustomHttpClient,private modalComponent: MyModalComponent,private locDataService:LocDataService) {
+  constructor(private httpCLient:CustomHttpClient,private modalComponent: MyModalComponent,
+    private locDataService:LocDataService, private listModalComponent:GeometryListModalComponent) {
   }
   
   // data:GeoLocation=null;
   data:any=null;
+  data2:any=null;
   _options: string = 'Point';
   _type: Type;
   mapİsActive:boolean=false;
@@ -46,6 +49,7 @@ export class MapComponent implements OnInit  {
         this.getMap(this._options as Type);
         this.data=null;
         this.locDataService.data=null;
+        this.locDataService.data2=null;
       }
     }
 
@@ -70,38 +74,32 @@ export class MapComponent implements OnInit  {
         type:geometry.getType(),
         coordinates:geometry.getCoordinates()
       };
-  //     const wkt =
-  // 'POLYGON((10.689 -25.092, 34.595 ' +
-  // '-20.170, 38.814 -35.639, 13.502 ' +
-  // '-39.155, 10.689 -25.092))'
 
-  //     console.log(geometry);
-  //     var format = new WKT();
-
-  //     const _feature = format.readFeature(wkt, {
-  //       dataProjection: 'EPSG:4326',
-  //       featureProjection: 'EPSG:3857',
-  //     });      
-
-      // var pointGeometry = new Point(geometry);
-
-      // var wkt = format.writeGeometry(pointGeometry);
-      // console.log("WKT:", wkt);
-
-        // _that.data.coordinates=geometry.getCoordinates();
+          const wkt =
+      'POLYGON((10.689 -25.092, 34.595 ' +
+      '-20.170, 38.814 -35.639, 13.502 ' +
+      '-39.155, 10.689 -25.092))'
+      var format = new WKT();
+      const _wkt = format.writeGeometry(feature.getGeometry(), {
+        dataProjection: 'EPSG:4326',
+        featureProjection: 'EPSG:3857'
+      });
+      const _data2={
+        wkt:_wkt
+      }
+      console.log(_wkt);
+      // console.log(typeof(_wkt));
         console.log();
         _that.data=daataa;
+        _that.data2=_data2;
         console.log(_that.data);
+
         _that.locDataService.data=_that.data;
-        console.log(_that.locDataService.data);
+        _that.locDataService.data2=_that.data2;
         
-        // _that.data.type=geometry.getType();
-        // _that.locDataService.data=_that.data;
-        // console.log(_that.data);
         // console.log(_that.locDataService.data);
-        // _that.locDataService.data.coordinates=geometry.getCoordinates();
-        // _that.locDataService.data.type=geometry.getType();
-        // console.log(_that.locDataService.data);
+        console.log(_that.locDataService.data2);
+
       });
   }
   getMap(type:Type){
@@ -193,18 +191,15 @@ export class MapComponent implements OnInit  {
     this.mapİsActive=false;
   }
 
-  createSnap(source){
-
-  }
-
-
 
   openModal() {
     this.modalComponent.openModal();
   }
+
+  getGeometryModal(){
+    this.listModalComponent.openModal();
   }
-
-
+  }
 
 export enum Type {
   Circle = 'Circle',

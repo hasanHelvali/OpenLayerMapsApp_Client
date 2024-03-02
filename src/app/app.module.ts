@@ -9,11 +9,13 @@ import { FormsModule } from '@angular/forms';
 import { MyModalComponent } from './components/my-modal/my-modal.component';
 import { BaseComponent } from './common/base/base.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { GeometryListModalComponent } from './components/geometry-list-modal/geometry-list-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     MyModalComponent,
+    GeometryListModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgxSpinnerModule,
     BrowserAnimationsModule,
   ],
-  providers: [{provide:"baseUrl",useValue:"https://localhost:7053/api"},MyModalComponent],
+  providers: [{provide:"baseUrl",useValue:"https://localhost:7053/api"},MyModalComponent,GeometryListModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
