@@ -58,9 +58,8 @@ isModalActive:boolean=false;
       })
     }
 
-    getLocation(id){
-      this.locDataService.getGeometryById=id;
+    getLocation(wkt){
       this.closeModal();
-      this.locDataService.veriOlusturulduSubject.next(id)
+      this.locDataService.veriOlusturulduSubject.next(wkt)
     }
 }

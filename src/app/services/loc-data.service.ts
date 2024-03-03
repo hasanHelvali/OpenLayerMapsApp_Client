@@ -15,7 +15,7 @@ export class LocDataService {
 
   listLocAndUser:LocAndUsers[];
 
-  getGeometryById:string;
+  getGeometryByWkt:string;
   constructor() {
    }
 }

@@ -14,7 +14,7 @@ import { CustomHttpClient } from 'src/app/services/customHttpClient.service';
 import { MyModalComponent } from '../my-modal/my-modal.component';
 import { View } from 'ol';
 import { LocDataService } from 'src/app/services/loc-data.service';
-import { Point } from 'ol/geom';
+import { Geometry, Point } from 'ol/geom';
 import { GeoLocation } from 'src/app/models/geo-location';
 import WKT, {  } from 'ol/format/WKT';
 import { GeometryListModalComponent } from '../geometry-list-modal/geometry-list-modal.component';
@@ -36,23 +36,21 @@ export class MapComponent extends BaseComponent implements OnInit  {
       super(spinner)
       this.locDataService.veriOlusturulduSubject.subscribe((veri)=>{
         console.log("veri geldi");
-        
-        this.getGeometryById();
+        this.getGeometryBywkt(veri);
       })
-      if(this.locDataService.getGeometryById!=null){
-        this.getGeometryById()
-      }
+
 
   }
   
-  // data:GeoLocation=null;
   data:any=null;
   data2:any=null;
   _options: string = 'Point';
   _type: Type;
   mapİsActive:boolean=false;
   map:Map;
+  _featureMap:Map;
   isCheck:boolean=false;
+  isFeatureMapActive:boolean=false;
   onChanges() {
     for (const opt in Type) {
       if(opt!=this._options){
@@ -87,11 +85,6 @@ export class MapComponent extends BaseComponent implements OnInit  {
         type:geometry.getType(),
         coordinates:geometry.getCoordinates()
       };
-
-          const wkt =
-      'POLYGON((10.689 -25.092, 34.595 ' +
-      '-20.170, 38.814 -35.639, 13.502 ' +
-      '-39.155, 10.689 -25.092))'
       var format = new WKT();
       const _wkt = format.writeGeometry(feature.getGeometry(), {
         dataProjection: 'EPSG:4326',
@@ -223,11 +216,77 @@ export class MapComponent extends BaseComponent implements OnInit  {
     });
   }
 
-  getGeometryById(){
-    const id = this.locDataService.getGeometryById;
-    console.log(id);
-    console.log("----------------------");
+  getGeometryBywkt(_wkt){
+    this.disposeMap(this.map);
+
+    var map;
+    console.log("*********");
     
+    const wkt = _wkt
+    console.log(wkt);
+    
+    const format=new WKT();
+
+    // var raster = this.createRaster();
+    // var source=this.createSource();
+    const feature = format.readFeature(wkt, {
+      dataProjection: 'EPSG:4326',
+      featureProjection: 'EPSG:3857'
+  });
+    // const vectorSource = new VectorSource({
+    //   features: [feature],
+    // });
+    // // var vector=this.createVector(source);
+    // const vectorLayer = new VectorLayer({
+    //   source: vectorSource,
+    // });
+    // var extent=this.createExtent();
+    // this.map=this.createMap(raster,vectorLayer,extent);
+
+    // this.map.addLayer(vectorLayer);
+
+
+    const raster = new TileLayer({
+      source: new OSM(),
+    });
+    
+    // const feature = format.readFeature(wkt, {
+    //   dataProjection: 'EPSG:4326',
+    //   featureProjection: 'EPSG:3857',
+    // });
+    
+    const vector = new VectorLayer({
+      source: new VectorSource({
+        features: [feature],
+      }),
+    });
+    
+    var geometry = feature.getGeometry() as Geometry;
+    // console.log(geometry)
+    // console.log(geometry.getCoordinates())
+    //  const map = new Map({
+    //   layers: [raster, vector],
+    //   target: 'map', // Harita bileşeninin ID'si
+    //   view: new View({
+    //     center: fromLonLat([34.9998,39.42152]),
+    //     zoom: 6.8,
+    //   }),
+    // });
+      this._featureMap=this.featureMap(raster,vector);
+  }
+
+  featureMap(raster,vector){
+    if(this._featureMap){
+      this._featureMap.dispose()
+    }
+    return new Map({
+      layers: [raster, vector],
+      target: 'map', // Harita bileşeninin ID'si
+      view: new View({
+        center: fromLonLat([34.9998,39.42152]),
+        zoom: 6.8,
+      }),
+    });
   }
   }
 
