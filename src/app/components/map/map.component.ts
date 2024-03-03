@@ -18,6 +18,9 @@ import { Point } from 'ol/geom';
 import { GeoLocation } from 'src/app/models/geo-location';
 import WKT, {  } from 'ol/format/WKT';
 import { GeometryListModalComponent } from '../geometry-list-modal/geometry-list-modal.component';
+import { LocAndUsers } from 'src/app/models/locAndUsers';
+import { BaseComponent } from 'src/app/common/base/base.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-map',
@@ -27,9 +30,19 @@ import { GeometryListModalComponent } from '../geometry-list-modal/geometry-list
 })
 
 
-export class MapComponent implements OnInit  {
+export class MapComponent extends BaseComponent implements OnInit  {
   constructor(private httpCLient:CustomHttpClient,private modalComponent: MyModalComponent,
-    private locDataService:LocDataService, private listModalComponent:GeometryListModalComponent) {
+    public locDataService:LocDataService, private listModalComponent:GeometryListModalComponent,spinner:NgxSpinnerService) {
+      super(spinner)
+      this.locDataService.veriOlusturulduSubject.subscribe((veri)=>{
+        console.log("veri geldi");
+        
+        this.getGeometryById();
+      })
+      if(this.locDataService.getGeometryById!=null){
+        this.getGeometryById()
+      }
+
   }
   
   // data:GeoLocation=null;
@@ -197,7 +210,24 @@ export class MapComponent implements OnInit  {
   }
 
   getGeometryModal(){
-    this.listModalComponent.openModal();
+    this.showSpinner();
+    this.httpCLient.get<LocAndUsers>({controller:"maps"}).subscribe({
+      next:(data)=>{
+        this.locDataService.listLocAndUser=data;      
+        this.hideSpinner();
+        this.listModalComponent.openModal();
+      },
+      error:(err)=>{
+        //Doldurulabilir.
+      }
+    });
+  }
+
+  getGeometryById(){
+    const id = this.locDataService.getGeometryById;
+    console.log(id);
+    console.log("----------------------");
+    
   }
   }
 

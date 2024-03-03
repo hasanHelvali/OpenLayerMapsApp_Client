@@ -1,22 +1,44 @@
-<div class="modal" id="liste">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Kayıtlar Listesi</h4>
-          <button type="button" class="btn-close" (click)="closeModal()" data-bs-dismiss="modal"></button>
+ <div class="modal" id="liste">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Kayıtlar Listesi</h4>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="closeModal()"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body" *ngIf="locDataService.listLocAndUser; else noList">
+          <table class="table">
+            <thead class="text-center">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">WKT</th>
+                <th scope="col">Göster</th>
+                <th scope="col">Sil</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr id="dataRow{{item.id}}" class="trRow" *ngFor="let item of locDataService.listLocAndUser">
+                <th class="border" scope="row">{{item.id}}</th> 
+                <td class="border">{{ item.name }}</td>
+                <td class="border" >{{ item.wkt }}</td>
+                <td class="border"><span><i class="bi bi-pin-map-fill text-warning" (click)="getLocation(item.id)" ></i></span></td>
+                <td><span><i class="bi bi-trash text-danger" (click)="deleteLocAndUser(item.id)"></i></span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="modal-body">
-            <form >
-                <label >ID</label>
-                <input type="text" class="form-control" >
-                <input type="text" class="form-control"  placeholder="Enter Name">
-                <input type="text" class="form-control" placeholder="Enter WKT">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal" >Save</button>
-        </div>
+      <ng-template #noList>Bir Kayıt Bulunamadı</ng-template>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          Save
+        </button>
       </div>
     </div>
-</div>
+  </div>
+</div> 
+

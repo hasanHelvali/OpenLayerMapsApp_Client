@@ -1,4 +1,8 @@
 .modalList{
     z-index: 2;
-    width: 500px;
 }
+.modal-body {
+    overflow-y: 750px; 
+    /* or overflow-y: scroll; */
+    /* overflow: auto; or overflow-y: scroll; */
+  }
