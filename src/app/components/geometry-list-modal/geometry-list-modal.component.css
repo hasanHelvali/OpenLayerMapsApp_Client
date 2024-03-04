@@ -2,7 +2,7 @@
     z-index: 2;
 }
 .modal-body {
-    overflow-y: 750px; 
+    overflow-y: auto; 
     /* or overflow-y: scroll; */
     /* overflow: auto; or overflow-y: scroll; */
   }

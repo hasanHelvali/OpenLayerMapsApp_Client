@@ -37,6 +37,8 @@ export class MapComponent extends BaseComponent implements OnInit  {
       this.locDataService.veriOlusturulduSubject.subscribe((veri)=>{
         console.log("veri geldi");
         this.getGeometryBywkt(veri);
+        this._options="";
+        
       })
 
 
@@ -52,6 +54,9 @@ export class MapComponent extends BaseComponent implements OnInit  {
   isCheck:boolean=false;
   isFeatureMapActive:boolean=false;
   onChanges() {
+    if(this.isFeatureMapActive==true){
+      this.disposeMap(this._featureMap)
+    }
     for (const opt in Type) {
       if(opt!=this._options){
         //bir değisiklik yapıldıysa
@@ -64,6 +69,12 @@ export class MapComponent extends BaseComponent implements OnInit  {
       }
     }
 
+  }
+  disposeFeatureMap(){
+    if(this.isFeatureMapActive==true){
+      this.disposeMap(this._featureMap)
+      this.ngOnInit()
+    }
   }
   ngOnInit() {
    this.getMap(Type.Point);
@@ -119,10 +130,8 @@ export class MapComponent extends BaseComponent implements OnInit  {
     var draw = this.createDraw(source,type)
     this.addInteractions(draw,source)
     this.mapDraw(draw)
-    
+    this.isFeatureMapActive=false;
   }
-
-  
   addInteractions(draw,source) {
     let snap;
     // draw = new Draw({
@@ -133,7 +142,6 @@ export class MapComponent extends BaseComponent implements OnInit  {
     snap = new Snap({source: source});
     this.map.addInteraction(snap);
   }
-
   createDraw(source,type):Draw{
     var draw = new Draw({
       source: source,
@@ -209,18 +217,20 @@ export class MapComponent extends BaseComponent implements OnInit  {
         this.locDataService.listLocAndUser=data;      
         this.hideSpinner();
         this.listModalComponent.openModal();
+        this._options="";
       },
       error:(err)=>{
-        //Doldurulabilir.
+        alert("Bir Hata Oluştu.")
       }
     });
   }
 
   getGeometryBywkt(_wkt){
+    console.log("++++++++");
+    this._options="";
+    this.isFeatureMapActive=true
     this.disposeMap(this.map);
-
     var map;
-    console.log("*********");
     
     const wkt = _wkt
     console.log(wkt);

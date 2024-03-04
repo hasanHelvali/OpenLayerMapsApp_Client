@@ -10,7 +10,7 @@
           data-bs-dismiss="modal"
         ></button>
       </div>
-      <div class="modal-body" *ngIf="locDataService.listLocAndUser; else noList">
+      <div class="modal-body" *ngIf="locDataService.listLocAndUser.length>0; else noList">
           <table class="table">
             <thead class="text-center">
               <tr>

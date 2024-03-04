@@ -9,11 +9,11 @@
             <form class="form">
                 <input type="text" class="form-control" placeholder="İsim" #name>
                 <label class="form-control-plaintext  " for="">Feature : {{data.type}}</label> <br>
-                <label class="form-control-plaintext " >Coordinates : {{data.coordinates}}</label>
+                <textarea class="form-control-plaintext " style="resize: none;width: 100%; height: 100px;" [disabled]="true">Coordinates : {{data.coordinates}}</textarea>
             </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="save(name.value)">Save</button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="save(name.value)">Kaydet</button>
         </div>
       </div>
     </div>
